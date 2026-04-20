@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard API Monitoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f5f5f5;
+        }
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard API Monitoring</h1>
+
+    {% if last_run %}
+        <div class="card">
+            <h2>Dernier run</h2>
+            <p><strong>API :</strong> {{ last_run.api }}</p>
+            <p><strong>Timestamp :</strong> {{ last_run.timestamp }}</p>
+            <p><strong>Passed :</strong> {{ last_run.passed }}</p>
+            <p><strong>Failed :</strong> {{ last_run.failed }}</p>
+            <p><strong>Error rate :</strong> {{ last_run.error_rate }}</p>
+            <p><strong>Latence moyenne :</strong> {{ last_run.latency_ms_avg }} ms</p>
+            <p><strong>P95 :</strong> {{ last_run.latency_ms_p95 }} ms</p>
+            <p><strong>Disponibilité :</strong> {{ last_run.availability }}</p>
+        </div>
+    {% else %}
+        <p>Aucun run enregistré.</p>
+    {% endif %}
+
+    <div class="card">
+        <h2>Historique des runs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>API</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Error Rate</th>
+                    <th>Avg Latency</th>
+                    <th>P95</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for run in runs %}
+                <tr>
+                    <td>{{ run.id }}</td>
+                    <td>{{ run.timestamp }}</td>
+                    <td>{{ run.api }}</td>
+                    <td>{{ run.passed }}</td>
+                    <td>{{ run.failed }}</td>
+                    <td>{{ run.error_rate }}</td>
+                    <td>{{ run.latency_ms_avg }} ms</td>
+                    <td>{{ run.latency_ms_p95 }} ms</td>
+                    <td>{{ run.availability }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
